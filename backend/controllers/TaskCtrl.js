@@ -12,7 +12,7 @@ const addTask = asyncHandler(async (req, res) => {
     console.log(req.user);
     const task = await new Task(req.body).save();
     await User.findByIdAndUpdate(req.user._id, {
-      $push: { employees: employee.id },
+      $push: { task: task.id },
     });
     res.json(task);
   } catch (error) {
@@ -38,7 +38,7 @@ const deleteTask = asyncHandler(async (req, res) => {
   try {
     const task = await task.findByIdAndDelete(req.params.id);
     await User.findByIdAndUpdate(req.user._id, {
-      $pull: { employees: employee.id },
+      $pull: { task: task.id },
     });
     res.json(task);
   } catch (error) {
@@ -47,8 +47,8 @@ const deleteTask = asyncHandler(async (req, res) => {
 });
 const singleTask = asyncHandler(async (req, res) => {
   try {
-    const employee = await Task.findById(req.params.id);
-    res.json(employee);
+    const task = await Task.findById(req.params.id);
+    res.json(task);
   } catch (error) {
     res.json(error);
   }

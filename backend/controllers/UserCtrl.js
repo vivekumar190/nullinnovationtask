@@ -57,8 +57,8 @@ const UserDashboard = asyncHandler(async (req, res) => {
     throw new Error("Login is required");
   }
   try {
-    const manager = await Manager.findById(req.user._id).populate("tasks");
-    res.json(manager);
+    const user = await User.findById(req.user._id).populate("tasks");
+    res.json(user);
   } catch (error) {
     res.json(error);
   }
